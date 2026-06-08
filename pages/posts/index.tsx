@@ -2,23 +2,38 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { GetStaticProps } from "next";
-import BlogCard from "../../components/Blog/BlogCard";
-import FadeIn from "../../components/FadeIn";
+import BlogCard from "../../components/ui/BlogCard";
+import ScrollReveal from "../../components/animations/ScrollReveal";
+import SectionLabel from "../../components/ui/SectionLabel";
+import type { PostMeta } from "../../components/ui/types";
 
-const Posts = ({ ...props }) => {
+interface PostsProps {
+  posts: PostMeta[];
+}
+
+const Posts = ({ posts }: PostsProps) => {
   return (
-    <div className="page-enter">
-      <FadeIn delay={0.1}>
-        <h1>記事 &mdash; Posts</h1>
-      </FadeIn>
-
-      <FadeIn delay={0.2}>
-        <div className="space-y-4 mt-8">
-          {props.posts.map((post: any) => (
-            <BlogCard post={post} key={post.slug} />
-          ))}
+    <div>
+      <section className="section" style={{ paddingBottom: "2rem" }}>
+        <div className="max-w-[84vw] mx-auto">
+          <ScrollReveal delay={0.1}>
+            <SectionLabel>記事</SectionLabel>
+            <h1 className="section-title">Posts</h1>
+          </ScrollReveal>
         </div>
-      </FadeIn>
+      </section>
+
+      <section className="section" style={{ paddingTop: "4rem", backgroundColor: "var(--bg-secondary)" }}>
+        <div className="max-w-[84vw] mx-auto">
+          <ScrollReveal delay={0.2}>
+            <div className="space-y-4">
+              {posts.map((post: PostMeta) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
     </div>
   );
 };
@@ -31,17 +46,18 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const posts = postFilePaths.map((filePath) => {
     const source = fs.readFileSync(path.join(POSTS_PATH, filePath), "utf8");
-    const { content, data } = matter(source);
+    const { data } = matter(source);
     const slug = filePath.split(".")[0];
 
     return {
-      content,
-      data,
-      filePath,
+      title: data.title,
+      desc: data.desc,
+      publishedAt: data.publishedAt,
+      thumbnail: data.thumbnail,
       slug,
     };
   });
-  posts.sort((a, b) => (a.data.publishedAt > b.data.publishedAt ? -1 : 1));
+  posts.sort((a, b) => (a.publishedAt > b.publishedAt ? -1 : 1));
   return { props: { posts } };
 };
 

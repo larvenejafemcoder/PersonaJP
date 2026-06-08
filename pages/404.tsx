@@ -1,27 +1,25 @@
-import FadeIn from "../components/FadeIn";
 import Link from "next/link";
-import EnsoIcon from "../components/EnsoIcon";
 
 const Custom404 = () => {
   return (
-    <div className="text-center py-20 page-enter">
-      <FadeIn>
-        <div className="flex justify-center mb-6 text-bamboo-ash/30 dark:text-night-text/20">
-          <EnsoIcon size={120} />
-        </div>
-        <p className="text-xs tracking-[0.3em] text-bamboo-ash/50 dark:text-night-text/30 mb-4 uppercase">
+    <section className="section min-h-screen flex items-center justify-center">
+      <div className="max-w-[84vw] mx-auto text-center">
+        <p className="section-label mb-8" style={{ color: "var(--text-light)" }}>
           此処には無い
         </p>
-        <p className="text-sm text-bamboo-ash/60 dark:text-night-text/40 mb-10">
+        <h1 className="hero-title mb-8" role="alert">
+          404
+        </h1>
+        <p className="body-text mb-16">
           Not in this place
         </p>
         <Link href="/">
-          <button className="btn-vermilion text-sm tracking-wider">
-            Return home
-          </button>
+          <span className="btn-outline" role="button" tabIndex={0}>
+            Return Home →
+          </span>
         </Link>
-      </FadeIn>
-    </div>
+      </div>
+    </section>
   );
 };
 

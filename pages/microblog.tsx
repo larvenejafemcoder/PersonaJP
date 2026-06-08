@@ -1,43 +1,63 @@
-import FadeIn from "../components/FadeIn";
+import ScrollReveal from "../components/animations/ScrollReveal";
+import SectionLabel from "../components/ui/SectionLabel";
 import microblog from "../data/microblog.json";
+import type { MicroblogEntry } from "../components/ui/types";
 
 const Microblog = () => {
-  return (
-    <div className="page-enter">
-      <FadeIn delay={0.1}>
-        <h1>和の心 &mdash; Microblog</h1>
-        <p className="text-sm text-bamboo-ash dark:text-night-text/60 mt-8 leading-relaxed">
-          Microblogging since 2023
-        </p>
-      </FadeIn>
+  const entries = microblog as MicroblogEntry[];
 
-      {microblog.map((item) => (
-        <FadeIn delay={0.2} key={item.title}>
-          <div className="mb-10 mt-8">
-            <h2
-              className="text-base font-heading font-semibold mb-4 tracking-wider text-vermilion dark:text-night-ember"
-              style={{ display: "inline-block" }}
-            >
-              {item.title}
-            </h2>
-            <div className="space-y-3 mt-4">
-              {item.data.map((it) => (
-                <div
-                  key={it.date}
-                  className="flex gap-4 text-sm border-l border-washi-shadow dark:border-night-border pl-4"
+  return (
+    <div>
+      <section className="section" style={{ paddingBottom: "2rem" }}>
+        <div className="max-w-[84vw] mx-auto">
+          <ScrollReveal delay={0.1}>
+            <SectionLabel>和の心</SectionLabel>
+            <h1 className="section-title">Microblog</h1>
+            <p className="body-text mt-8 max-w-xl">
+              Microblogging since 2023
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: "4rem", backgroundColor: "var(--bg-secondary)" }}>
+        <div className="max-w-[84vw] mx-auto">
+          {entries.map((item: MicroblogEntry) => (
+            <ScrollReveal delay={0.2} key={item.title}>
+              <div className="mb-16">
+                <h2
+                  className="text-sm font-medium tracking-wider mb-8"
+                  style={{ color: "var(--accent-red)" }}
                 >
-                  <span className="text-xs text-bamboo-ash/50 dark:text-night-text/30 w-24 shrink-0 font-mono">
-                    {it.date}
-                  </span>
-                  <p className="text-bamboo-ash dark:text-night-text/70 leading-relaxed">
-                    {it.content}
-                  </p>
+                  {item.title}
+                </h2>
+                <div className="space-y-6">
+                  {item.data.map((entry: { date: string; content: string }) => (
+                    <div
+                      key={entry.date}
+                      className="flex gap-4 text-sm items-start"
+                    >
+                      <span
+                        className="text-xs shrink-0 w-24 font-mono"
+                        style={{ color: "var(--text-light)" }}
+                      >
+                        {entry.date}
+                      </span>
+                      <div className="hairline mt-2 flex-1" />
+                      <p
+                        className="leading-relaxed max-w-xl"
+                        style={{ color: "var(--text-secondary)" }}
+                      >
+                        {entry.content}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-      ))}
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,47 +1,66 @@
-import FadeIn from "../components/FadeIn";
+import ScrollReveal from "../components/animations/ScrollReveal";
+import SectionLabel from "../components/ui/SectionLabel";
 import news from "../data/news.json";
 import Link from "next/link";
+import type { NewsItem } from "../components/ui/types";
 
 const News = () => {
+  const items = news as NewsItem[];
+
   return (
-    <div className="page-enter">
-      <FadeIn delay={0.1}>
-        <h1>お知らせ &mdash; News</h1>
-      </FadeIn>
+    <div>
+      <section className="section" style={{ paddingBottom: "2rem" }}>
+        <div className="max-w-[84vw] mx-auto">
+          <ScrollReveal delay={0.1}>
+            <SectionLabel>お知らせ</SectionLabel>
+            <h1 className="section-title">News</h1>
+          </ScrollReveal>
+        </div>
+      </section>
 
-      <FadeIn delay={0.2}>
-        <div className="space-y-6 mt-8">
-          {news.map((item) => (
-            <div key={item.date} className="waku p-4 md:p-6">
-              <span className="text-xs font-heading text-vermilion dark:text-night-ember tracking-wider block mb-3">
-                {item.date}
-              </span>
-              <div className="space-y-2">
-                {item.events.map((event) => (
-                  <p
-                    key={event}
-                    className="text-sm text-bamboo-ash dark:text-night-text/70 leading-relaxed"
-                  >
-                    {event}
-                  </p>
-                ))}
-              </div>
+      <section className="section" style={{ paddingTop: "4rem", backgroundColor: "var(--bg-secondary)" }}>
+        <div className="max-w-[84vw] mx-auto">
+          <ScrollReveal delay={0.2}>
+            <div className="space-y-6">
+              {items.map((item: NewsItem) => (
+                <div key={item.date} className="card p-6">
+                  <div className="flex items-start gap-4">
+                    <span
+                      className="micro-label shrink-0 mt-0.5"
+                      style={{ color: "var(--accent-red)" }}
+                    >
+                      {item.date}
+                    </span>
+                    <div className="space-y-2">
+                      {item.events.map((event: string) => (
+                        <p
+                          key={event}
+                          className="text-sm leading-relaxed"
+                          style={{ color: "var(--text-secondary)" }}
+                        >
+                          {event}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </ScrollReveal>
         </div>
-      </FadeIn>
+      </section>
 
-      <div className="kumiko-divider" />
-
-      <FadeIn delay={0.3}>
-        <div className="text-center">
-          <Link href="/microblog">
-            <button className="btn-vermilion text-sm tracking-wider">
-              微ブログ &mdash; Microblog
-            </button>
-          </Link>
+      <section className="section">
+        <div className="max-w-[84vw] mx-auto text-center">
+          <ScrollReveal delay={0.3}>
+            <Link href="/microblog">
+              <span className="btn-outline" role="button" tabIndex={0}>
+                Microblog →
+              </span>
+            </Link>
+          </ScrollReveal>
         </div>
-      </FadeIn>
+      </section>
     </div>
   );
 };

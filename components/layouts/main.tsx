@@ -1,16 +1,15 @@
 import Head from "next/head";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Navbar from "../layout/Navbar";
+import Footer from "../layout/Footer";
 
-const Main = ({
-  children,
-  router,
-}: {
-  children: any;
-  router: any;
-}) => {
+interface MainProps {
+  children: React.ReactNode;
+  router: { asPath: string };
+}
+
+const Main = ({ children, router }: MainProps) => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--color-bg)" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "var(--bg-primary)" }}>
       <Head>
         <title>Yang Tuấn Anh</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,7 +17,7 @@ const Main = ({
       </Head>
 
       <Navbar path={router.asPath} />
-      <main className="max-w-4xl mx-auto px-4 md:px-8 pt-24 pb-12">
+      <main>
         {children}
         <Footer />
       </main>
